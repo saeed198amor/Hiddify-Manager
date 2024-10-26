@@ -7,3 +7,66 @@
     "plugin_opts":"server;path=/{{ hconfigs['proxy_path'] }}/v2ray/;loglevel=none",
     "method":"chacha20-ietf-poly1305"
 } 
+{
+    "configurations": [
+        {
+            "name": "Run HiddifyPanel and Server (apply config and run flask)",
+            "type": "python",
+            "request": "launch",
+            "module": "flask",
+            "preLaunchTask": "build-hiddify-manager",
+            "cwd": "${workspaceFolder}/hiddify-panel/src/",
+            "env": {
+                "FLASK_APP": "wsgi.py",
+                "FLASK_DEBUG": "1",
+                "HIDDIFY_CFG_PATH": "/opt/hiddify-manager/hiddify-panel/app.cfg",
+            },
+            "args": [
+                "run",
+                // "--no-debugger",
+                // "--no-reload",
+                "--host",
+                "0.0.0.0",
+                "--port",
+                "9000",
+                "--reload"
+            ],
+            "jinja": true,
+            "justMyCode": true
+        },
+        {
+            "name": "Run HiddifyPanel Only (make sure to apply config before)",
+            "type": "python",
+            "request": "launch",
+            "module": "flask",
+            "cwd": "${workspaceFolder}/hiddify-panel/src/",
+            "env": {
+                "FLASK_APP": "wsgi.py",
+                "FLASK_DEBUG": "1",
+                "HIDDIFY_CFG_PATH": "/opt/hiddify-manager/hiddify-panel/app.cfg",
+            },
+            "args": [
+                "run",
+                // "--no-debugger",
+                // "--no-reload",
+                "--host",
+                "0.0.0.0",
+                "--port",
+                "9000",
+                "--reload"
+            ],
+            "jinja": true,
+            "justMyCode": true
+        },
+        {
+            "name": "Apply Config Only",
+            "type": "python",
+            "preLaunchTask": "build-hiddify-manager",
+            "request": "launch",
+            "args": [
+                "-c",
+                "print('build complete')"
+            ],
+        }
+    ]
+}
